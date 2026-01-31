@@ -1,38 +1,22 @@
-# chi no es simetrica
-
-nconfianzainferior<-function(a,n)
-{
-  al<-1-a
-  dial<-1-al/2
-  total<-qchisq(dial,n-1)
-  round(total,4)
-  
+# cuantiles chi-cuadrado
+chi_inf <- function(alpha, n) {
+  qchisq(1 - alpha/2, n - 1)
 }
 
-nconfianzasuperior<-function(a,n)
-{
-  al<-1-a
-  dial<- al/2
-  total<-qchisq(dial,n-1)
-  round(total,4)
-  
-} 
-#falta para hallar s2
-s<-c(46.4 , 46.1 , 45.8 , 47.0 , 46.1 , 45.9 , 45.2 , 46.0 , 45.8, 46.9)
-s1<-var(s)
-s1
-
-icv <- function(sapsss, alf,n)
-{
-  
-  xinf<-nconfianzainferior(alf,n)
-  xsup <- nconfianzasuperior(alf,n)
-  g<- ((n-1)*s1)/xinf
-  g2<- ((n-1)*s1)/xsup
-  is   <- round(g,3)
-  infr <- round(g2,3)
-  return(cat(paste("ICP=[", g , g2 , "]")))
-  
+chi_sup <- function(alpha, n) {
+  qchisq(alpha/2, n - 1)
 }
-icv(s1,0.95,10)
-nconfianzasuperior(0.95,10)
+
+# intervalo de confianza para la varianza
+ic_varianza <- function(s2, alpha, n) {
+
+  chi1 <- chi_inf(alpha, n)
+  chi2 <- chi_sup(alpha, n)
+
+  lim_inf <- ((n - 1) * s2) / chi1
+  lim_sup <- ((n - 1) * s2) / chi2
+
+  cat("IC de la varianza = [",
+      round(lim_inf, 4), ",",
+      round(lim_sup, 4), "]")
+}
