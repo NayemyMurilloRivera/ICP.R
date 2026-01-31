@@ -20,3 +20,7 @@ ic_varianza <- function(s2, alpha, n) {
       round(lim_inf, 4), ",",
       round(lim_sup, 4), "]")
 }
+s <- c(46.4,46.1,45.8,47.0,46.1,45.9,45.2,46.0,45.8,46.9)
+s2 <- var(s)
+
+ic_varianza(s2, 0.05, length(s))
